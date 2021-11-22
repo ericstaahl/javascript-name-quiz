@@ -188,46 +188,56 @@ const missing_students = [
         "image": null,
     },
 ];
-
-shuffleArray(students);
-
-// const studentNames = students.map(item => item.name);
-
-
-let person1 = students[0];
-let person2 = students[1];
-let person3 = students[2];
-let person4 = students[3];
-
-const bild1El = document.querySelector(".bild1");
-bild1El.innerHTML = `<p>${person1.name}</p> <img src="${person1.image}" alt="">`;
-
-const altEl = document.querySelectorAll(".alt")
-
-
-htmlArray = [
-    `<button class="btn btn-primary">${person1.name}</button>`,
-    `<button class="btn btn-primary">${person2.name}</button>`,
-    `<button class="btn btn-primary">${person3.name}</button>`,
-    `<button class="btn btn-primary">${person4.name}</button>`,
-]
-
-shuffleArray(htmlArray);
-
-let i = 0;
-altEl.forEach(item => {
-    item.innerHTML = htmlArray[i];
-    i++;
-});
+let studentsFiltered = [...students];
 
 const altContainerEl = document.querySelector(".alt-container");
-altContainerEl.addEventListener('click', e => {
-    if (e.target.tagName === "BUTTON") {
-        if (e.target.innerText === person1.name) {
-          console.log("Du gissade rätt!")  
-        } else {console.log("Du gissade fel!")};
-    };
-});
+
+const image1El = document.querySelector("#image-1");
+
+const altEl = document.querySelectorAll("BUTTON")
+
+const playAgain = function () {
+
+    shuffleArray(studentsFiltered);
+
+    // const studentNames = students.map(item => item.name);
+
+    let person1 = studentsFiltered[0];
+    let person2 = studentsFiltered[1];
+    let person3 = studentsFiltered[2];
+    let person4 = studentsFiltered[3];
+
+    image1El.src = person1.image;
+
+    htmlArray = [
+        person1.name,
+        person2.name,
+        person3.name,
+        person4.name,
+    ]
+
+    shuffleArray(htmlArray);
+
+    let i = 0;
+    altEl.forEach(item => {
+        item.innerHTML = htmlArray[i];
+        i++;
+    });
+
+    altContainerEl.addEventListener('click', e => {
+        if (e.target.tagName === "BUTTON") {
+            if (e.target.innerText === person1.name) {
+                console.log("Du gissade rätt!");
+                studentsFiltered = studentsFiltered.filter(student => student != studentsFiltered[0]);
+                playAgain();
+            } else {
+                console.log("Du gissade fel!")
+            };
+        };
+    });
+};
+
+playAgain();
 
 // const alt1El = document.querySelector(".alt1");
 // alt1El.innerHTML=`<p>${studentNames[Math.floor(Math.random()*studentNames.length)]}<p>`;
