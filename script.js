@@ -196,7 +196,7 @@ const image1El = document.querySelector("#image-1");
 
 const altEl = document.querySelectorAll("BUTTON")
 
-const playAgain = function () {
+const playAgain = function() {
 
     shuffleArray(studentsFiltered);
 
@@ -224,20 +224,23 @@ const playAgain = function () {
         i++;
     });
 
-    altContainerEl.addEventListener('click', e => {
+    const checkName = function(e) {
         if (e.target.tagName === "BUTTON") {
             if (e.target.innerText === person1.name) {
                 console.log("Du gissade rätt!");
                 studentsFiltered = studentsFiltered.filter(student => student != studentsFiltered[0]);
+                altContainerEl.removeEventListener('click', checkName);
                 playAgain();
             } else {
                 console.log("Du gissade fel!")
             };
         };
-    });
-};
+    };
 
-playAgain();
+    altContainerEl.addEventListener('click', checkName);
+}
+
+    playAgain();
 
 // const alt1El = document.querySelector(".alt1");
 // alt1El.innerHTML=`<p>${studentNames[Math.floor(Math.random()*studentNames.length)]}<p>`;
