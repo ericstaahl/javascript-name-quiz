@@ -1,11 +1,3 @@
-const shuffleArray = array => {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-}
 
 const students = [
     {
@@ -188,33 +180,49 @@ const missing_students = [
         "image": null,
     },
 ];
+
+const shuffleArray = array => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
 let studentsFiltered = [...students];
 
+const studentNames = students.map(student => student.name)
+
 const altContainerEl = document.querySelector(".alt-container");
-
 const image1El = document.querySelector("#image-1");
-
 const altEl = document.querySelectorAll("BUTTON")
 
-const playAgain = function() {
+let correctAnswers = 0;
+
+let initialArrayLength = studentsFiltered.length;
+
+
+const playAgain = function () {
 
     shuffleArray(studentsFiltered);
+    shuffleArray(studentNames);
 
-    // const studentNames = students.map(item => item.name);
+    let person2 = studentNames[1];
+    let person3 = studentNames[2];
+    let person4 = studentNames[3];
+    let person1 = studentsFiltered.find(student => student.name != person2 && student.name != person3 && student.name && person4);
 
-    let person1 = studentsFiltered[0];
-    let person2 = studentsFiltered[1];
-    let person3 = studentsFiltered[2];
-    let person4 = studentsFiltered[3];
+
 
     image1El.src = person1.image;
 
     htmlArray = [
         person1.name,
-        person2.name,
-        person3.name,
-        person4.name,
-    ]
+        person2,
+        person3,
+        person4,
+    ];
 
     shuffleArray(htmlArray);
 
@@ -224,15 +232,26 @@ const playAgain = function() {
         i++;
     });
 
-    const checkName = function(e) {
+    const checkName = function (e) {
         if (e.target.tagName === "BUTTON") {
+            studentsFiltered = studentsFiltered.filter(student => student != studentsFiltered[0]);
             if (e.target.innerText === person1.name) {
                 console.log("Du gissade rätt!");
-                studentsFiltered = studentsFiltered.filter(student => student != studentsFiltered[0]);
+                correctAnswers++;
                 altContainerEl.removeEventListener('click', checkName);
-                playAgain();
+                if (studentsFiltered.length > (initialArrayLength-10)) {
+                    playAgain();
+                } else {
+                    console.log(`Du hade ${correctAnswers}/39 poäng!`)
+                };
             } else {
                 console.log("Du gissade fel!")
+                altContainerEl.removeEventListener('click', checkName);
+                if (studentsFiltered.length > (initialArrayLength-10)) {
+                    playAgain();
+                } else {
+                    console.log(`Du hade ${correctAnswers}/39 poäng!`)
+                };
             };
         };
     };
@@ -240,21 +259,4 @@ const playAgain = function() {
     altContainerEl.addEventListener('click', checkName);
 }
 
-    playAgain();
-
-// const alt1El = document.querySelector(".alt1");
-// alt1El.innerHTML=`<p>${studentNames[Math.floor(Math.random()*studentNames.length)]}<p>`;
-// const alt2El = document.querySelector(".alt2");
-// alt2El.innerHTML=`<p>${studentNames[Math.floor(Math.random()*studentNames.length)]}<p>`;
-// const alt3El = document.querySelector(".alt3");studentNames
-// alt3El.innerHTML=`<p>${studentNames[Math.floor(Math.random()*studentNames.length)]}<p>`;
-// const alt4El = document.querySelector(".alt4");
-// alt4El.innerHTML=`<p>${person1.name}<p>`;
-
-// let i = 0;
-// altEl.forEach(alt => {
-
-//     alt.innerHTML=`<p>${studentNames[i]}</p>`
-//     i++;
-
-// });
+playAgain();
