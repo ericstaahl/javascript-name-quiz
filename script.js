@@ -197,6 +197,7 @@ const studentNames = students.map(student => student.name)
 const altContainerEl = document.querySelector(".alt-container");
 const image1El = document.querySelector("#image-1");
 const altEl = document.querySelectorAll("BUTTON")
+const scoreTracker = document.querySelector(".score-tracker")
 
 let correctAnswers = 0;
 
@@ -238,19 +239,21 @@ const playAgain = function () {
             if (e.target.innerText === person1.name) {
                 console.log("Du gissade rätt!");
                 correctAnswers++;
+                scoreTracker.innerHTML = `Nuvarande poäng: ${correctAnswers}/10`;
                 altContainerEl.removeEventListener('click', checkName);
                 if (studentsFiltered.length > (initialArrayLength-10)) {
                     playAgain();
                 } else {
-                    console.log(`Du hade ${correctAnswers}/39 poäng!`)
+                    console.log(`Du hade ${correctAnswers}/10 poäng!`)
                 };
             } else {
                 console.log("Du gissade fel!")
                 altContainerEl.removeEventListener('click', checkName);
+                scoreTracker.innerHTML = `Nuvarande poäng: ${correctAnswers}/10`;
                 if (studentsFiltered.length > (initialArrayLength-10)) {
                     playAgain();
                 } else {
-                    console.log(`Du hade ${correctAnswers}/39 poäng!`)
+                    console.log(`Du hade ${correctAnswers}/10 poäng!`)
                 };
             };
         };
