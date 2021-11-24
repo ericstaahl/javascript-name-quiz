@@ -187,79 +187,89 @@ const shuffleArray = array => {
         const temp = array[i];
         array[i] = array[j];
         array[j] = temp;
-    }
-}
-
-let studentsFiltered = [...students];
-
-const studentNames = students.map(student => student.name)
-
-const altContainerEl = document.querySelector(".alt-container");
-const image1El = document.querySelector("#image-1");
-const altEl = document.querySelectorAll("BUTTON")
-const scoreTracker = document.querySelector(".score-tracker")
-
-let correctAnswers = 0;
-
-let initialArrayLength = studentsFiltered.length;
-
+    };
+};
 
 const playAgain = function () {
 
-    shuffleArray(studentsFiltered);
-    shuffleArray(studentNames);
+    let studentsFiltered = [...students];
 
-    let person2 = studentNames[1];
-    let person3 = studentNames[2];
-    let person4 = studentNames[3];
-    let person1 = studentsFiltered.find(student => student.name != person2 && student.name != person3 && student.name && person4);
+    const studentNames = students.map(student => student.name)
+
+    const altContainerEl = document.querySelector(".alt-container");
+    const image1El = document.querySelector("#image-1");
+    const altEl = document.querySelectorAll(".name-button")
+    const scoreTrackerEl = document.querySelector("#score-tracker")
+    const playAgainEl = document.querySelector(".play-again");
+
+    let correctAnswers = 0;
+    let imageNr = 0;
+
+    const updateScoreTracker = () => {
+        scoreTrackerEl.innerText = `Bild nr. ${imageNr}/10. Nuvarande poäng: ${correctAnswers}/10`
+    };
+
+    updateScoreTracker();
+
+    let initialArrayLength = studentsFiltered.length;
 
 
+    const nextImage = function () {
+        imageNr++;
+        updateScoreTracker();
+        shuffleArray(studentsFiltered);
+        shuffleArray(studentNames);
 
-    image1El.src = person1.image;
+        let person2 = studentNames[1];
+        let person3 = studentNames[2];
+        let person4 = studentNames[3];
+        let person1 = studentsFiltered.find(student => student.name != person2 && student.name != person3 && student.name != person4);
 
-    htmlArray = [
-        person1.name,
-        person2,
-        person3,
-        person4,
-    ];
+        image1El.src = person1.image;
 
-    shuffleArray(htmlArray);
+        htmlArray = [
+            person1.name,
+            person2,
+            person3,
+            person4,
+        ];
 
-    let i = 0;
-    altEl.forEach(item => {
-        item.innerHTML = htmlArray[i];
-        i++;
-    });
+        shuffleArray(htmlArray);
 
-    const checkName = function (e) {
-        if (e.target.tagName === "BUTTON") {
-            studentsFiltered = studentsFiltered.filter(student => student != studentsFiltered[0]);
-            if (e.target.innerText === person1.name) {
-                console.log("Du gissade rätt!");
-                correctAnswers++;
-                scoreTracker.innerHTML = `Nuvarande poäng: ${correctAnswers}/10`;
-                altContainerEl.removeEventListener('click', checkName);
-                if (studentsFiltered.length > (initialArrayLength-10)) {
-                    playAgain();
-                } else {
-                    console.log(`Du hade ${correctAnswers}/10 poäng!`)
+        let i = 0;
+        altEl.forEach(item => {
+            item.innerHTML = htmlArray[i];
+            i++;
+        });
+
+        const checkName = function (e) {
+            if (e.target.tagName === "BUTTON") {
+                studentsFiltered = studentsFiltered.filter(student => student != person1);
+                if (e.target.innerText === person1.name) {
+                    console.log("Du gissade rätt!");
+                    correctAnswers++;
+                }
+                else {
+                    console.log("Du gissade fel!")
                 };
-            } else {
-                console.log("Du gissade fel!")
+                // scoreTrackerEl.innerText = `Bild nr. ${imageNr}/10. Nuvarande poäng: ${correctAnswers}/10`;
                 altContainerEl.removeEventListener('click', checkName);
-                scoreTracker.innerHTML = `Nuvarande poäng: ${correctAnswers}/10`;
-                if (studentsFiltered.length > (initialArrayLength-10)) {
-                    playAgain();
-                } else {
-                    console.log(`Du hade ${correctAnswers}/10 poäng!`)
+                if (studentsFiltered.length > (initialArrayLength - 10)) {
+                    nextImage();
+                }
+                else {
+                    console.log(`Du fick ${correctAnswers}/10 poäng!`)
+                    // scoreTrackerEl.innerText = `Du fick ${correctAnswers}/10 poäng!`;
+                    playAgainEl.addEventListener('click', e => {
+                        playAgain();
+                    })
                 };
             };
         };
+
+        altContainerEl.addEventListener('click', checkName);
     };
 
-    altContainerEl.addEventListener('click', checkName);
-}
-
+    nextImage();
+};
 playAgain();
