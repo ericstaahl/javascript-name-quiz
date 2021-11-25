@@ -199,6 +199,7 @@ const image1El = document.querySelector("#image-1");
 const altEl = document.querySelectorAll(".name-button")
 const scoreTrackerEl = document.querySelector("#score-tracker")
 const playAgainEl = document.querySelector(".play-again");
+const highScoreEl = document.querySelector("#high-score");
 
 let person2;
 let person3;
@@ -206,6 +207,7 @@ let person4;
 let person1;
 
 let correctAnswers = 0;
+let highScore = 0;
 let imageNr = 0;
 
 const updateScoreTracker = () => {
@@ -261,6 +263,11 @@ const checkName = function (e) {
             nextImage();
         }
         else {
+            if (correctAnswers > highScore) {
+                highScore = correctAnswers
+                highScoreEl.innerText = `Din high-score är nu: ${highScore}.`
+
+            };
             console.log(`Du fick ${correctAnswers}/10 poäng!`)
             scoreTrackerEl.innerText = `Du fick ${correctAnswers}/10 poäng!`;
             altContainerEl.removeEventListener('click', checkName);
