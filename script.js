@@ -200,6 +200,7 @@ const altEl = document.querySelectorAll(".name-button")
 const scoreTrackerEl = document.querySelector("#score-tracker")
 const playAgainEl = document.querySelector(".play-again");
 const highScoreEl = document.querySelector("#high-score");
+const answerListEl = document.querySelector("#answer-list")
 
 let person2;
 let person3;
@@ -250,6 +251,17 @@ const nextImage = function () {
 const checkName = function (e) {
     if (e.target.tagName === "BUTTON") {
         studentsFiltered = studentsFiltered.filter(student => student != person1);
+
+        //Skapar li-element där jag lägger till namnet på personen på bilden och själva bilden.
+        const answerLIel = document.createElement("li");
+        const answerContent = document.createTextNode(`${person1.name}`);
+        const imageEl = document.createElement('img')
+        imageEl.classList.add('img-fluid');
+        imageEl.src = person1.image;
+        answerLIel.appendChild(answerContent);
+        answerLIel.appendChild(imageEl);
+        answerListEl.appendChild(answerLIel);
+
         if (e.target.innerText === person1.name) {
             console.log("Du gissade rätt!");
             correctAnswers++;
@@ -257,17 +269,15 @@ const checkName = function (e) {
         else {
             console.log("Du gissade fel!")
         };
-        // scoreTrackerEl.innerText = `Bild nr. ${imageNr}/10. Nuvarande poäng: ${correctAnswers}/10`;
-        // altContainerEl.removeEventListener('click', checkName);
+
         if (studentsFiltered.length > (initialArrayLength - 10)) {
             nextImage();
-        }
-        else {
+        } else {
             if (correctAnswers > highScore) {
                 highScore = correctAnswers
                 highScoreEl.innerText = `Din high-score är nu: ${highScore}.`
-
             };
+
             console.log(`Du fick ${correctAnswers}/10 poäng!`)
             scoreTrackerEl.innerText = `Du fick ${correctAnswers}/10 poäng!`;
             altContainerEl.removeEventListener('click', checkName);
@@ -278,6 +288,7 @@ const checkName = function (e) {
 altContainerEl.addEventListener('click', checkName);
 
 const playAgain = function () {
+    answerListEl.innerHTML="";
     studentsFiltered = [...students];
     correctAnswers = 0;
     imageNr = 0;

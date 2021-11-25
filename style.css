@@ -16,6 +16,13 @@ body {
     font-size: 1.1rem;
 }
 
+#answer-list li {
+    width: 50%;
+    list-style: none;
+    box-sizing: border-box;
+    padding: 2px;
+}
+
 @media only screen and (min-width: 768px) {
     .name-button, .play-again {
         font-size: 1.25rem;
