@@ -2,4 +2,30 @@ body {
     font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
-};
+}
+
+#score-tracker {
+    font-size: 1.1rem;
+}
+
+#high-score {
+    font-size: 1.1rem;
+}
+
+.name-button, .play-again {
+    font-size: 1.1rem;
+}
+
+@media only screen and (min-width: 768px) {
+    .name-button, .play-again {
+        font-size: 1.25rem;
+    }
+
+    #score-tracker {
+        font-size: 1.25rem;
+    }
+    
+    #high-score {
+        font-size: 1.25rem;
+    }
+}
