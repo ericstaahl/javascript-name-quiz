@@ -181,6 +181,7 @@ const missing_students = [
     },
 ];
 
+//Funktion för slumpmässig sortering av array.
 const shuffleArray = array => {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -219,12 +220,15 @@ updateScoreTracker();
 
 let initialArrayLength = studentsFiltered.length;
 
+//Bild slumpas fram.
 const nextImage = function () {
     imageNr++;
     updateScoreTracker();
     shuffleArray(studentsFiltered);
     shuffleArray(studentNames);
 
+    //Slumpmässig person från arrayn och slumpmässiga (felaktiga) namn väljs. 
+    //De jämförs så de inte förekommer flera gånger.
     person2 = studentNames[1];
     person3 = studentNames[2];
     person4 = studentNames[3];
@@ -255,21 +259,21 @@ const checkName = function (e) {
         //Skapar li-element där jag lägger till namnet på personen på bilden och själva bilden.
         const answerLIel = document.createElement("li");
         const answerContent = document.createTextNode(`${person1.name}`);
-        const imageEl = document.createElement('img')
-        imageEl.classList.add('img-fluid');
-        imageEl.src = person1.image;
+        const imageAnswerEl = document.createElement('img')
+        imageAnswerEl.classList.add('img-fluid');
+        imageAnswerEl.src = person1.image;
         answerLIel.appendChild(answerContent);
-        answerLIel.appendChild(imageEl);
+        answerLIel.appendChild(imageAnswerEl);
         answerListEl.appendChild(answerLIel);
 
         if (e.target.innerText === person1.name) {
             console.log("Du gissade rätt!");
             correctAnswers++;
-        }
-        else {
+        } else {
             console.log("Du gissade fel!")
         };
 
+        //Oavsett antalet personer i listan kommer spelet alltid vara slut efter gissning på tio personer
         if (studentsFiltered.length > (initialArrayLength - 10)) {
             nextImage();
         } else {
@@ -287,6 +291,7 @@ const checkName = function (e) {
 
 altContainerEl.addEventListener('click', checkName);
 
+//Nollställer svarslistan, poäng och hämtar alla personer på nytt bl.a.
 const playAgain = function () {
     answerListEl.innerHTML="";
     studentsFiltered = [...students];
@@ -295,7 +300,9 @@ const playAgain = function () {
     altContainerEl.addEventListener('click', checkName);
     nextImage();
 };
+
 playAgainEl.addEventListener('click', e => {
     playAgain();
 });
+
 nextImage();
