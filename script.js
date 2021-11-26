@@ -258,13 +258,20 @@ const checkName = function (e) {
 
         //Skapar li-element där jag lägger till namnet på personen på bilden och själva bilden.
         const answerLIel = document.createElement("li");
-        const answerContent = document.createTextNode(`${person1.name}`);
+        const answerContent = document.createTextNode(`Rätt svar: ${person1.name}.`);
+        const answerContent1 = document.createTextNode(`Din gissning: ${e.target.innerText}.`);
+        const lineBreakEl = document.createElement("br")
         const imageAnswerEl = document.createElement('img')
+
         imageAnswerEl.classList.add('img-fluid');
         imageAnswerEl.src = person1.image;
         answerLIel.appendChild(answerContent);
+        answerLIel.appendChild(lineBreakEl);
+        answerLIel.appendChild(answerContent1);
+
         answerLIel.appendChild(imageAnswerEl);
         answerListEl.appendChild(answerLIel);
+        answerListEl.classList.add('d-none')
 
         if (e.target.innerText === person1.name) {
             console.log("Du gissade rätt!");
@@ -281,10 +288,11 @@ const checkName = function (e) {
                 highScore = correctAnswers
                 highScoreEl.innerText = `Din high-score är nu: ${highScore}.`
             };
-
             console.log(`Du fick ${correctAnswers}/10 poäng!`)
             scoreTrackerEl.innerText = `Du fick ${correctAnswers}/10 poäng!`;
             altContainerEl.removeEventListener('click', checkName);
+            answerListEl.classList.remove('d-none');
+            answerListEl.classList.add('d-flex');
         };
     };
 };
