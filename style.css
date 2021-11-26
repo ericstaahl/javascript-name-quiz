@@ -17,10 +17,13 @@ body {
 }
 
 #answer-list li {
-    width: 50%;
+    width: 45%;
     list-style: none;
     box-sizing: border-box;
-    padding: 2px;
+    border: solid 3px rgba(102, 102, 102, 0.795);
+    border-radius: 5px;
+    padding: 2%;
+    margin: 2%;
 }
 
 @media only screen and (min-width: 768px) {
