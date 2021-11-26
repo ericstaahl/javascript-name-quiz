@@ -256,27 +256,27 @@ const checkName = function (e) {
     if (e.target.tagName === "BUTTON") {
         studentsFiltered = studentsFiltered.filter(student => student != person1);
 
-        //Skapar li-element där jag lägger till namnet på personen på bilden och själva bilden.
-        const answerLIel = document.createElement("li");
-        const answerContent = document.createTextNode(`Rätt svar: ${person1.name}.`);
-        const answerContent1 = document.createTextNode(`Din gissning: ${e.target.innerText}.`);
-        const lineBreakEl = document.createElement("br")
-        const imageAnswerEl = document.createElement('img')
-
-        imageAnswerEl.classList.add('img-fluid');
-        imageAnswerEl.src = person1.image;
-        answerLIel.appendChild(answerContent);
-        answerLIel.appendChild(lineBreakEl);
-        answerLIel.appendChild(answerContent1);
-
-        answerLIel.appendChild(imageAnswerEl);
-        answerListEl.appendChild(answerLIel);
-        answerListEl.classList.add('d-none')
-
         if (e.target.innerText === person1.name) {
             console.log("Du gissade rätt!");
             correctAnswers++;
         } else {
+                    //Skapar li-element där jag lägger till namnet på personen på bilden och själva bilden.
+            const answerLIel = document.createElement("li");
+            const answerContent = document.createTextNode(`Rätt svar: ${person1.name}.`);
+            const answerContent1 = document.createTextNode(`Din gissning: ${e.target.innerText}.`);
+            const lineBreakEl = document.createElement("br")
+            const imageAnswerEl = document.createElement('img')
+
+            imageAnswerEl.classList.add('img-fluid');
+            imageAnswerEl.src = person1.image;
+            answerLIel.appendChild(answerContent);
+            answerLIel.appendChild(lineBreakEl);
+            answerLIel.appendChild(answerContent1);
+    
+            answerLIel.appendChild(imageAnswerEl);
+            answerListEl.appendChild(answerLIel);
+            answerListEl.classList.add('d-none')
+    
             console.log("Du gissade fel!")
         };
 
